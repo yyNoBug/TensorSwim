@@ -1,5 +1,5 @@
 """ import your model here """
-import operation as tf
+import your_model as tf
 """ your model should support the following code """
 
 def weight_variable(shape):
@@ -67,8 +67,8 @@ mnist = input_data.read_data_sets("FMNIST/", one_hot=True)
 
 with tf.Session() as sess:
     sess.run(tf.global_variables_initializer())
-    for i in range(1000):
-        batch = mnist.train.next_batch(256)
+    for i in range(200):
+        batch = mnist.train.next_batch(500)
         if i % 50 == 0:
             train_accuracy = accuracy.eval(feed_dict = { x: batch[0],
                                            y_: batch[1], keep_prob: 1.0})
@@ -76,9 +76,9 @@ with tf.Session() as sess:
 
         train_step.run(feed_dict={x: batch[0], y_: batch[1], keep_prob: 0.5})
 
-    batch = mnist.test.next_batch(50000)
+    batch = mnist.test.next_batch(10000)
     ans = accuracy.eval(feed_dict={ x:batch[0],
                                     y_: batch[1], keep_prob: 1.0})
     print('test accuracy %g' % ans)
-    assert ans > 0.87
+    assert ans > 0.72
 

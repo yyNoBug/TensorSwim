@@ -35,4 +35,4 @@ accuracy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))
 ans = sess.run(accuracy, feed_dict={x: mnist.test.images, y_: mnist.test.labels})
 
 print("Accuracy: %.3f" % ans)
-assert ans >= 0.75
+assert ans >= 0.70

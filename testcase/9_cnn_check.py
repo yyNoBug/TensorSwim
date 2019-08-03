@@ -1,5 +1,5 @@
 """ import your model here """
-import operation as act_tf
+import your_model as act_tf
 import tensorflow as ans_tf
 """ check the correctness of your model by comparing with tensorflow """
 

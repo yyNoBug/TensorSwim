@@ -6,6 +6,31 @@ def search(list, dic):
     return ans
 
 
+def search_ind(list, dic):
+    """Search for listed items in dic and return them."""
+    ans = []
+    for i in list:
+        if i in dic: ans.append(i)
+    return ans
+
+
+def find(a, b):
+    """Find whether tuple a is in tuple b.
+        Return 1 when a is the head of b
+        Return -1 when a is the rear of b
+        Return 0 for any other cases.
+    """
+    flag = True
+    for i in range(len(a)):
+        if a[i] != b[i]:
+            flag = False
+            break
+    if flag: return 1
+    for i in range(len(a)):
+        if a[i] != b[-1-i]: return 0
+    return -1
+
+
 def find_topo_sort(node_list):
     """Given a list of nodes, return a topological sort list of nodes ending in them.
 

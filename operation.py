@@ -3,6 +3,16 @@ from ultility import *
 
 variable_value_list = {}
 
+float32 = np.float32
+float64 = np.float64
+zeros = np.zeros
+ones = np.ones
+
+
+def random_normal(shape):
+    return np.random.normal(size=shape)
+
+
 class Node(object):
     """Node in a computation graph."""
 
@@ -175,7 +185,7 @@ class SubOp(Op):
 
     def gradient(self, node, output_grad):
         """Given gradient of add node, return gradient contributions to each input."""
-        return [adapt(output_grad, node.inputs[0]), adapt(output_grad, node.inputs[1])]
+        return [adapt(output_grad, node.inputs[0]), adapt(-output_grad, node.inputs[1])]
 
 class MulOp(Op):
     """Op to element-wise multiply two nodes."""
@@ -374,11 +384,12 @@ class ReduceMeanOp(Op):
         return np.mean(input_vals[0], axis=node.const_attr)
 
     def gradient(self, node, output_grad):
-        return [broadcast_to(output_grad, node.inputs[0]) / reduce_sum(node.inputs[0])]
+        # return [broadcast_to(output_grad, node.inputs[0]) / reduce_sum(node.inputs[0])]
+        return [adapt(broadcast_to(output_grad, node.inputs[0]) /
+                      reduce_sum(oneslike_op(node.inputs[0]), axis=node.const_attr), node.inputs[0])]
 
 
 class ReluOp(Op):
-    """Op to compute reduce mean"""
     def __call__(self, node_A, name=None):
         new_node = Op.__call__(self)
         new_node.inputs = [node_A]
@@ -391,7 +402,8 @@ class ReluOp(Op):
         return np.maximum(input_vals[0], 0)
 
     def gradient(self, node, output_grad):
-        assert False
+        grad_A = (sign(node.inputs[0]) + 1) * 0.5 * output_grad
+        return [grad_A]
 
 
 class PlaceholderOp(Op):
@@ -502,12 +514,25 @@ class BroadcastToOp(Op):
         return [adapt(output_grad, node.inputs[0]), zeroslike_op(node.inputs[1])]
 
 
+class SignOp(Op):
+    """ Op that computes whether two nodes are equal."""
+    def __call__(self, node_A):
+        new_node = Op.__call__(self)
+        new_node.inputs = [node_A]
+        new_node.name = "sign(%s)" % node_A.name
+        return new_node
+
+    def compute(self, node, input_vals):
+        assert len(input_vals) == 1
+        return np.sign(input_vals[0])
+
+
 class EqualOp(Op):
     """ Op that computes whether two nodes are equal."""
     def __call__(self, node_A, node_B):
         new_node = Op.__call__(self)
-        new_node.inputs = [node_A, node_B]
         new_node.name = "(%s == %s)" % (node_A.name, node_B.name)
+        new_node.inputs = [node_A, node_B]
         return new_node
 
     def compute(self, node, input_vals):
@@ -638,6 +663,7 @@ Variable = VariableOp()
 constant = ConstantOp()
 assign = AssignOp()
 broadcast_to = BroadcastToOp()
+sign = SignOp()
 equal = EqualOp()
 argmax = ArgmaxOp()
 shape = ShapeOp()

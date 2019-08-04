@@ -2,7 +2,6 @@ import ultility as ut
 from functional import *
 
 
-
 class Session(object):
     def __call__(self, name="Session"):
         newSession = Session()

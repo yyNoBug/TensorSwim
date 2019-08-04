@@ -1,6 +1,5 @@
 from operation import *
 from ultility import *
-from math import *
 
 
 class nn(object):
@@ -13,7 +12,10 @@ class nn(object):
 
     class SoftmaxCrossEntropyWithLogitsOp(Op):
         def __call__(self, logits, labels):
-            pass
+            y_pred = nn.softmax(logits)
+            new_node = -reduce_sum(logits * log(y_pred), -1)
+            new_node.name = "SCEWL(%s)" %logits.name
+            return new_node
 
     class ReluOp(Op):
         def __call__(self, features, name=None):

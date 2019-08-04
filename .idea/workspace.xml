@@ -2,20 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="37504269-5373-4d9d-9844-f6a089d91141" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/functional.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/TensorFlow.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/TensorSwim.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/neuralnetwork.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/functional.py" beforeDir="false" afterPath="$PROJECT_DIR$/functional.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/math.py" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/operation.py" beforeDir="false" afterPath="$PROJECT_DIR$/operation.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/testcase/10_cnn_gd.py" beforeDir="false" afterPath="$PROJECT_DIR$/testcase/10_cnn_gd.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/testcase/11_cnn_adam.py" beforeDir="false" afterPath="$PROJECT_DIR$/testcase/11_cnn_adam.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/testcase/5_mnist_grad.py" beforeDir="false" afterPath="$PROJECT_DIR$/testcase/5_mnist_grad.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/testcase/6_gd_optimizer.py" beforeDir="false" afterPath="$PROJECT_DIR$/testcase/6_gd_optimizer.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/testcase/7_ml_perceptron.py" beforeDir="false" afterPath="$PROJECT_DIR$/testcase/7_ml_perceptron.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/testcase/8_adam_optimizer.py" beforeDir="false" afterPath="$PROJECT_DIR$/testcase/8_adam_optimizer.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/testcase/9_cnn_check.py" beforeDir="false" afterPath="$PROJECT_DIR$/testcase/9_cnn_check.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ultility.py" beforeDir="false" afterPath="$PROJECT_DIR$/ultility.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/your_model.py" beforeDir="false" afterPath="$PROJECT_DIR$/your_model.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -63,28 +53,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.6_gd_optimizer">
-    <configuration name="4_context" type="PythonConfigurationType" factoryName="Python" temporary="true">
-      <module name="TensorSwim" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/testcase" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/testcase/4_context.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
+  <component name="RunManager" selected="Python.7_ml_perceptron">
     <configuration name="5_mnist_grad" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="TensorSwim" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -127,6 +96,27 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
+    <configuration name="7_ml_perceptron" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="TensorSwim" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/testcase" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/testcase/7_ml_perceptron.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <configuration default="true" type="PythonConfigurationType" factoryName="Python">
       <module name="TensorSwim" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -148,7 +138,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="operation" type="PythonConfigurationType" factoryName="Python" temporary="true">
+    <configuration name="scratch" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="TensorSwim" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -156,11 +146,11 @@
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="IS_MODULE_SDK" value="true" />
+      <option name="WORKING_DIRECTORY" value="$APPLICATION_CONFIG_DIR$/scratches" />
+      <option name="IS_MODULE_SDK" value="false" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/operation.py" />
+      <option name="SCRIPT_NAME" value="$APPLICATION_CONFIG_DIR$/scratches/scratch.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -169,7 +159,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="stride_tricks" type="PythonConfigurationType" factoryName="Python" temporary="true">
+    <configuration name="scratch2" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="TensorSwim" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -177,11 +167,11 @@
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$USER_HOME$/.local/lib/python3.6/site-packages/numpy/lib" />
-      <option name="IS_MODULE_SDK" value="true" />
+      <option name="WORKING_DIRECTORY" value="$APPLICATION_CONFIG_DIR$/scratches" />
+      <option name="IS_MODULE_SDK" value="false" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$USER_HOME$/.local/lib/python3.6/site-packages/numpy/lib/stride_tricks.py" />
+      <option name="SCRIPT_NAME" value="$APPLICATION_CONFIG_DIR$/scratches/scratch2.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -236,11 +226,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.7_ml_perceptron" />
         <item itemvalue="Python.6_gd_optimizer" />
         <item itemvalue="Python.5_mnist_grad" />
-        <item itemvalue="Python.stride_tricks" />
-        <item itemvalue="Python.operation" />
-        <item itemvalue="Python.4_context" />
+        <item itemvalue="Python.scratch2" />
+        <item itemvalue="Python.scratch" />
       </list>
     </recent_temporary>
   </component>
@@ -278,12 +268,13 @@
           <line>110</line>
           <option name="timeStamp" value="2" />
         </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <condition expression="count==98" language="Python" />
+          <url>file://$PROJECT_DIR$/your_model.py</url>
+          <line>53</line>
+          <option name="timeStamp" value="18" />
+        </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
-    <watches-manager>
-      <configuration name="PythonConfigurationType">
-        <watch expression="variable_value_list" language="Python" />
-      </configuration>
-    </watches-manager>
   </component>
 </project>

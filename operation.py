@@ -1,4 +1,5 @@
 import numpy as np
+import cp_link as cop
 from executor import *
 
 variable_value_list = {}
@@ -9,8 +10,8 @@ zeros = np.zeros
 ones = np.ones
 
 
-def random_normal(shape):
-    return np.random.normal(size=shape)
+def random_normal(shape, stddev=1.0):
+    return np.random.normal(size=shape, scale=stddev)
 
 
 class Node(object):
@@ -448,6 +449,22 @@ class ReluOp(Op):
         return [grad_A]
 
 
+class Conv2dOp(Op):
+    def __call__(self, input, filter, strides, padding):
+        new_node = Op.__call__(self)
+        new_node.name = "Cov2dOp"
+        new_node.inputs = [input, filter]
+        new_node.const_attr = [strides, padding]
+        return new_node
+
+    def compute(self, node, input_vals):
+        return cop.cov2d(input_vals[0], input_vals[1], node.const_attr[0], node.const_attr[1])
+        pass
+
+    def gradient(self, node, output_grad):
+        pass
+
+
 class PlaceholderOp(Op):
     """Op to feed value to a nodes."""
 
@@ -702,6 +719,7 @@ oneslike_op = OnesLikeOp()
 reduce_sum = ReduceSumOp()
 reduce_mean = ReduceMeanOp()
 relu_op = ReluOp()
+conv2d_op = Conv2dOp()
 placeholder = PlaceholderOp()
 Variable = VariableOp()
 constant = ConstantOp()

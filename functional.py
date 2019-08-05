@@ -22,9 +22,15 @@ class nn(object):
             new_node = relu_op(features, name=None)
             return new_node
 
+    class Conv2dOp(Op):
+        def __call__(self, input, filter, strides, padding):
+            new_node = conv2d_op(input, filter, strides, padding)
+            return new_node
+
     softmax = SoftmaxOp()
     softmax_cross_entropy_with_logits = SoftmaxCrossEntropyWithLogitsOp()
     relu = ReluOp()
+    conv2d = Conv2dOp()
 
 
 class train(object):

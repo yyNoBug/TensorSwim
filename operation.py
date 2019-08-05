@@ -1,5 +1,5 @@
 import numpy as np
-from ultility import *
+from executor import *
 
 variable_value_list = {}
 
@@ -105,6 +105,10 @@ class Node(object):
         return self.name
 
     __repr__ = __str__
+
+    def eval(self, feed_dict={}):
+        excecutor = Executor(eval_node_list= [self])
+        return excecutor.run(feed_dict=feed_dict)[0]
 
 
 class Op(object):
@@ -279,6 +283,42 @@ class MatMulOp(Op):
         return [gradA, gradB]
 
 
+class SqrtOp(Op):
+    def __call__(self, node_A):
+        new_node = Op.__call__(self)
+        if isinstance(node_A, Node):
+            new_node.inputs = [node_A]
+            new_node.name = "sqrt(%s)" % node_A.name
+        else:
+            new_node.inputs = [constant(node_A)]
+            new_node.name = "Constant"
+        return new_node
+
+    def compute(self, node, input_vals):
+        assert len(input_vals) == 1
+        return np.sqrt(input_vals[0])
+
+    def gradient(self, node, output_grad):
+        return [0.5 * output_grad / sqrt(node.inputs[0])]
+
+
+class PowOp(Op):
+    def __call__(self, node_A, node_B):
+        new_node = Op.__call__(self)
+        new_node.inputs = [node_A, node_B]
+        new_node.name = "pow(%s, %s)" % (node_A.name, node_B.name)
+        return new_node
+
+    def compute(self, node, input_vals):
+        assert len(input_vals) == 1
+        return np.power(input_vals[0], input_vals[1])
+
+    def gradient(self, node, output_grad):
+        grad_A = node.inputs[1] * pow_op(node.inputs[0], node.inputs[1] - 1) * output_grad
+        grad_B = log(node.inputs[0]) * pow_op(node.inputs[0], node.inputs[1]) * output_grad
+        return [grad_A, grad_B]
+
+
 class LogOp(Op):
     def __call__(self, node_A):
         new_node = Op.__call__(self)
@@ -384,9 +424,11 @@ class ReduceMeanOp(Op):
         return np.mean(input_vals[0], axis=node.const_attr)
 
     def gradient(self, node, output_grad):
-        # return [broadcast_to(output_grad, node.inputs[0]) / reduce_sum(node.inputs[0])]
-        return [adapt(broadcast_to(output_grad, node.inputs[0]) /
-                      reduce_sum(oneslike_op(node.inputs[0]), axis=node.const_attr), node.inputs[0])]
+        return [broadcast_to(output_grad, node.inputs[0]) /
+                reduce_sum(oneslike_op(node.inputs[0]), axis=node.const_attr)]
+        # return [adapt(broadcast_to(output_grad, node.inputs[0]) /
+                      #reduce_sum(oneslike_op(node.inputs[0]), axis=node.const_attr), node.inputs[0])]
+
 
 
 class ReluOp(Op):
@@ -651,6 +693,8 @@ sub_op = SubOp()
 mul_op = MulOp()
 div_op = DivOp()
 matmul = MatMulOp()
+sqrt = SqrtOp()
+pow_op = PowOp()
 log = LogOp()
 exp = ExpOp()
 zeroslike_op = ZerosLikeOp()

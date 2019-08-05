@@ -1,30 +1,7 @@
-from executor import *
-from functional import *
+import numpy as np
+import ultility as ut
 
 
-class Session(object):
-    def __call__(self, name="Session"):
-        newSession = Session()
-        newSession.name = name
-        newSession.ex = None   # I don't know what it means
-        return newSession
-
-    def run(self, eval_node_list, feed_dict={}):
-        if isinstance(eval_node_list, list):
-            executor = Executor(eval_node_list)
-            return executor.run(feed_dict=feed_dict)
-        else:
-            executor = Executor([eval_node_list])
-            return executor.run(feed_dict=feed_dict)[0]
-
-    def __enter__(self):
-        return self
-
-    def __exit__(self, a, b, c):
-        return
-
-
-'''
 class Executor:
     """Executor computes values for a given subset of nodes in a computation graph."""
 
@@ -55,7 +32,7 @@ class Executor:
         count = 0
         for n in topo_order:
             if n in node_to_val_map: continue
-            print(count)
+            # print(count)
             count += 1
             feed = ut.search(n.inputs, node_to_val_map)
             node_to_val_map[n] = n.op.compute(n, feed)
@@ -63,4 +40,3 @@ class Executor:
         # Collect node values.
         node_val_results = [node_to_val_map[node] for node in self.eval_node_list]
         return node_val_results
-'''

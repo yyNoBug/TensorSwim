@@ -13,7 +13,7 @@ class nn(object):
     class SoftmaxCrossEntropyWithLogitsOp(Op):
         def __call__(self, logits, labels):
             y_pred = nn.softmax(logits)
-            new_node = -reduce_sum(logits * log(y_pred), -1)
+            new_node = -reduce_sum(labels * log(y_pred), -1)
             new_node.name = "SCEWL(%s)" %logits.name
             return new_node
 
@@ -40,6 +40,38 @@ class train(object):
             new_node_list = []
             for i, item in enumerate(variables_optimize):
                 new_node_list.append(assign(item, item - variables_gradients[i] * self.learning_rate))
+            return wrap(new_node_list)
+
+    class AdamOptimizer():
+        def __init__(self, learning_rate=0.001, beta1=0.9, beta2=0.999, epsilon=1e-08, name='Adam'):
+            self.learning_rate = learning_rate
+            self.beta1 = beta1
+            self.beta2 = beta2
+            self.epsilon = epsilon
+            self.name = name
+            self.t = 0
+            self.m = []
+            self.v = []
+
+        def minimize(self, loss):
+            valid_nodes = find_topo_sort([loss])
+            variables_optimize = search_ind(valid_nodes, variable_value_list)
+            variables_gradients = gradients(loss, variables_optimize)
+            new_node_list = []
+
+            for _ in variables_optimize:
+                self.m.append(0)
+                self.v.append(0)
+
+            self.t = self.t + 1
+            lr_t = self.learning_rate * np.sqrt(1 - self.beta2 ** self.t)
+
+            for ind in range(len(variables_gradients)):
+                m_t = self.beta1 * self.m[ind] + (1 - self.beta1) * variables_gradients[ind]
+                v_t = self.beta2 * self.v[ind] + (1 - self.beta2) * variables_gradients[ind] * variables_gradients[ind]
+                variable = variables_optimize[ind] - lr_t * m_t / (sqrt(v_t) + self.epsilon)
+                new_node_list.append(assign(variables_optimize[ind], variable))
+
             return wrap(new_node_list)
 
 

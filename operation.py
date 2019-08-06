@@ -451,6 +451,8 @@ class ReluOp(Op):
 
 class Conv2dOp(Op):
     def __call__(self, input, filter, strides, padding):
+        assert strides == [1, 1, 1, 1]
+        assert padding == "SAME"
         new_node = Op.__call__(self)
         new_node.name = "Conv2dOp"
         new_node.inputs = [input, filter]
@@ -458,38 +460,66 @@ class Conv2dOp(Op):
         return new_node
 
     def compute(self, node, input_vals):
+        assert len(input_vals) == 2
         return cop.conv2d(input_vals[0], input_vals[1], node.const_attr[0], node.const_attr[1])
 
     def gradient(self, node, output_grad):
-        grad_A = conv2d_grad_op1(node.inputs, node.const_attr) * output_grad
-        grad_B = conv2d_grad_op2(node.inputs, node.const_attr) * output_grad
+        grad_A = conv2d_grad_op1(node.inputs, node.const_attr, output_grad)
+        grad_B = conv2d_grad_op2(node.inputs, node.const_attr, output_grad)
         return [grad_A, grad_B]
 
 
 class Conv2dGradOp1(Op):
-    def __call__(self, input, const_attr):
+    def __call__(self, input, const_attr, output_grad):
         new_node = Op.__call__(self)
         new_node.name = "Conv2dGradOp1"
-        new_node.inputs= input
+        new_node.inputs= [input[0], input[1], output_grad]
         new_node.const_attr = const_attr
         return new_node
 
     def compute(self, node, input_vals):
-        return cop.conv2dGrad1(input_vals[0], input_vals[1], node.const_attr[0], node.const_attr[1])
-        pass
+        return cop.conv2dGrad1(input_vals[0], input_vals[1], input_vals[2], node.const_attr[0], node.const_attr[1])
 
 
 class Conv2dGradOp2(Op):
-    def __call__(self, input, const_attr):
+    def __call__(self, input, const_attr, output_grad):
         new_node = Op.__call__(self)
         new_node.name = "Conv2dGradOp2"
-        new_node.inputs = input
+        new_node.inputs = [input[0], input[1], output_grad]
         new_node.const_attr = const_attr
         return new_node
 
     def compute(self, node, input_vals):
-        return cop.conv2dGrad2(input_vals[0], input_vals[1], node.const_attr[0], node.const_attr[1])
-        pass
+        return cop.conv2dGrad2(input_vals[0], input_vals[1], input_vals[2], node.const_attr[0], node.const_attr[1])
+
+
+class MaxPoolOp(Op):
+    def __call__(self, value, ksize, strides, padding):
+        assert strides == [1, 2, 2, 1]
+        assert padding == "SAME"
+        new_node = Op.__call__(self)
+        new_node.name = "MaxPoolOp"
+        new_node.inputs = [value]
+        new_node.const_attr = [ksize, strides, padding]
+        return new_node
+
+    def compute(self, node, input_vals):
+        return cop.max_pool(input_vals[0], node.const_attr[0], node.const_attr[1], node.const_attr[2])
+
+    def gradient(self, node, output_grad):
+        return [max_pool_grad_op(node.inputs, node.const_attr, output_grad)]
+
+class MaxPoolGradOp(Op):
+    def __call__(self, input, constattr, output_grad):
+        new_node = Op.__call__(self)
+        new_node.name = "MaxPoolGradOp"
+        new_node.inputs = [input[0], output_grad]
+        new_node.const_attr = constattr
+        return new_node
+
+    def compute(self, node, input_vals):
+        return cop.max_pool_grad(input_vals[0], input_vals[1], node.const_attr[0],
+                                 node.const_attr[1], node.const_attr[2])
 
 
 class PlaceholderOp(Op):
@@ -749,6 +779,8 @@ relu_op = ReluOp()
 conv2d_op = Conv2dOp()
 conv2d_grad_op1 = Conv2dGradOp1()
 conv2d_grad_op2 = Conv2dGradOp2()
+max_pool_op = MaxPoolOp()
+max_pool_grad_op = MaxPoolGradOp()
 placeholder = PlaceholderOp()
 Variable = VariableOp()
 constant = ConstantOp()

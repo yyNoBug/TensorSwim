@@ -2,12 +2,14 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="37504269-5373-4d9d-9844-f6a089d91141" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/testcase/9_me.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/c_operation.c" beforeDir="false" afterPath="$PROJECT_DIR$/c_operation.c" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cp_link.py" beforeDir="false" afterPath="$PROJECT_DIR$/cp_link.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/functional.py" beforeDir="false" afterPath="$PROJECT_DIR$/functional.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/libpycall.so" beforeDir="false" afterPath="$PROJECT_DIR$/libpycall.so" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/operation.py" beforeDir="false" afterPath="$PROJECT_DIR$/operation.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/testcase/9_me.py" beforeDir="false" afterPath="$PROJECT_DIR$/testcase/9_me.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/testcase/libpycall.so" beforeDir="false" afterPath="$PROJECT_DIR$/testcase/libpycall.so" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -33,15 +35,15 @@
     <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="com.intellij.ide.scratch.LRUPopupBuilder$1/New Scratch File" value="Python" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/testcase" />
     <property name="settings.editor.selected.configurable" value="editor.preferences.fonts.default" />
   </component>
   <component name="RecentsManager">
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$" />
-      <recent name="$PROJECT_DIR$/testcase" />
-    </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/testcase" />
+      <recent name="$PROJECT_DIR$" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/testcase" />
       <recent name="$PROJECT_DIR$" />
     </key>
@@ -58,8 +60,8 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.9_me">
-    <configuration name="9_me" type="PythonConfigurationType" factoryName="Python" temporary="true">
+  <component name="RunManager" selected="Python.9_cnn_check">
+    <configuration name="5_mnist_grad" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="TensorSwim" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -71,7 +73,7 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/testcase/9_me.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/testcase/5_mnist_grad.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -80,7 +82,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="cp_link" type="PythonConfigurationType" factoryName="Python" temporary="true">
+    <configuration name="9_cnn_check" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="TensorSwim" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -88,11 +90,11 @@
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/testcase" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/cp_link.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/testcase/9_cnn_check.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -101,64 +103,14 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="scratch_3" type="PythonConfigurationType" factoryName="Python" temporary="true">
-      <module name="TensorSwim" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$APPLICATION_CONFIG_DIR$/scratches" />
-      <option name="IS_MODULE_SDK" value="false" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$APPLICATION_CONFIG_DIR$/scratches/scratch_3.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
-    <configuration name="Nosetests for 9_cnn_check.test_backward_maxpool" type="tests" factoryName="Nosetests" temporary="true" nameIsGenerated="true">
-      <module name="TensorSwim" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/testcase" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="_new_regexPattern" value="&quot;&quot;" />
-      <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;9_cnn_check.test_backward_maxpool&quot;" />
-      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
-      <method v="2" />
-    </configuration>
-    <configuration name="Nosetests in 9_cnn_check.py" type="tests" factoryName="Nosetests" temporary="true" nameIsGenerated="true">
-      <module name="TensorSwim" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/testcase" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="_new_regexPattern" value="&quot;&quot;" />
-      <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;$PROJECT_DIR$/testcase/9_cnn_check.py&quot;" />
-      <option name="_new_targetType" value="&quot;PATH&quot;" />
-      <method v="2" />
-    </configuration>
+    <list>
+      <item itemvalue="Python.5_mnist_grad" />
+      <item itemvalue="Python.9_cnn_check" />
+    </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.9_me" />
-        <item itemvalue="Python tests.Nosetests in 9_cnn_check.py" />
-        <item itemvalue="Python.cp_link" />
-        <item itemvalue="Python tests.Nosetests for 9_cnn_check.test_backward_maxpool" />
-        <item itemvalue="Python.scratch_3" />
+        <item itemvalue="Python.9_cnn_check" />
+        <item itemvalue="Python.5_mnist_grad" />
       </list>
     </recent_temporary>
   </component>

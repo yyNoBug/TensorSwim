@@ -27,10 +27,16 @@ class nn(object):
             new_node = conv2d_op(input, filter, strides, padding)
             return new_node
 
+    class MaxPoolOp(Op):
+        def __call__(self, value, ksize, strides, padding):
+            new_node = max_pool_op(value, ksize, strides, padding)
+            return new_node
+
     softmax = SoftmaxOp()
     softmax_cross_entropy_with_logits = SoftmaxCrossEntropyWithLogitsOp()
     relu = ReluOp()
     conv2d = Conv2dOp()
+    max_pool = MaxPoolOp()
 
 
 class train(object):

@@ -2,11 +2,14 @@ import ctypes
 import time
 import numpy as np
 
+ll = ctypes.cdll.LoadLibrary  # call c/c++ function
+lib = ll("./libpycall.so")
+
 
 def zero_extend(input, u, d, l, r):
     output = np.zeros((input.shape[0], input.shape[1] + u + d,
                        input.shape[2] + l + r, input.shape[3]))
-    output[:, u : u + input.shape[1], l : l + input.shape[2], :] = output[:, :, :, :]
+    output[:, u : u + input.shape[1], l : l + input.shape[2], :] = input[:, :, :, :]
     return output
 
 
@@ -15,7 +18,7 @@ def get_pointer(input):
     return input.ctypes.data_as(ctypes.POINTER(ctypes.c_float))
 
 
-def cov2d(input, filter, strides, padding):
+def conv2d(input, filter, strides, padding):
     batch = input.shape[0]
     in_height = input.shape[1]
     in_width = input.shape[2]
@@ -26,7 +29,7 @@ def cov2d(input, filter, strides, padding):
     assert in_channels == filter.shape[2]
     out_channels = filter.shape[3]
 
-    if padding == "Same":
+    if padding == "SAME":
         out_height = (in_height - 1) // strides[1] + 1
         out_width = (in_width - 1) // strides[2] + 1
         output = np.zeros((batch, out_height, out_width, out_channels), dtype=np.float32)
@@ -69,6 +72,16 @@ def cov2d(input, filter, strides, padding):
     return output
 
 
+def conv2dGrad1(input, filter, strides, padding):
+    pass
+
+
+def conv2dGrad2(input, filter, strides, padding):
+    pass
+
+
+
+
 
 
 def fact(n):  # function write in python to compare
@@ -83,8 +96,6 @@ end = time.time()
 print('the python fact takes:', end - now)
 
 
-ll = ctypes.cdll.LoadLibrary  # call c/c++ function
-lib = ll("./libpycall.so")
 for i in range(10):
     n = lib.fact(100)
 print('the c fact takes:', time.time() - end)

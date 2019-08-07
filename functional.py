@@ -32,11 +32,18 @@ class nn(object):
             new_node = max_pool_op(value, ksize, strides, padding)
             return new_node
 
+    class DropoutOp(Op):
+        def __call__(self, x, keep_prob):
+            new_node = x * probshape_op(x, keep_prob) / keep_prob
+            new_node.name = "Dropout"
+            return new_node
+
     softmax = SoftmaxOp()
     softmax_cross_entropy_with_logits = SoftmaxCrossEntropyWithLogitsOp()
     relu = ReluOp()
     conv2d = Conv2dOp()
     max_pool = MaxPoolOp()
+    dropout = DropoutOp()
 
 
 class train(object):

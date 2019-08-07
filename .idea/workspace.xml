@@ -2,13 +2,15 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="37504269-5373-4d9d-9844-f6a089d91141" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/testcase/10_me.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/c_operation.c" beforeDir="false" afterPath="$PROJECT_DIR$/c_operation.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cp_link.py" beforeDir="false" afterPath="$PROJECT_DIR$/cp_link.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/executor.py" beforeDir="false" afterPath="$PROJECT_DIR$/executor.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/functional.py" beforeDir="false" afterPath="$PROJECT_DIR$/functional.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/libpycall.so" beforeDir="false" afterPath="$PROJECT_DIR$/libpycall.so" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/operation.py" beforeDir="false" afterPath="$PROJECT_DIR$/operation.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/testcase/9_me.py" beforeDir="false" afterPath="$PROJECT_DIR$/testcase/9_me.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/testcase/10_cnn_gd.py" beforeDir="false" afterPath="$PROJECT_DIR$/testcase/10_cnn_gd.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/testcase/11_cnn_adam.py" beforeDir="false" afterPath="$PROJECT_DIR$/testcase/11_cnn_adam.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/testcase/libpycall.so" beforeDir="false" afterPath="$PROJECT_DIR$/testcase/libpycall.so" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -60,8 +62,8 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.9_cnn_check">
-    <configuration name="5_mnist_grad" type="PythonConfigurationType" factoryName="Python" temporary="true">
+  <component name="RunManager" selected="Python.11_cnn_adam">
+    <configuration name="10_cnn_gd" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="TensorSwim" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -73,7 +75,49 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/testcase/5_mnist_grad.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/testcase/10_cnn_gd.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="10_me" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="TensorSwim" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/testcase" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/testcase/10_me.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="11_cnn_adam" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="TensorSwim" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/testcase" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/testcase/11_cnn_adam.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -103,14 +147,41 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
+    <configuration name="scratch_4" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="TensorSwim" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$APPLICATION_CONFIG_DIR$/scratches" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$APPLICATION_CONFIG_DIR$/scratches/scratch_4.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <list>
-      <item itemvalue="Python.5_mnist_grad" />
       <item itemvalue="Python.9_cnn_check" />
+      <item itemvalue="Python.10_cnn_gd" />
+      <item itemvalue="Python.scratch_4" />
+      <item itemvalue="Python.10_me" />
+      <item itemvalue="Python.11_cnn_adam" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.11_cnn_adam" />
+        <item itemvalue="Python.10_cnn_gd" />
+        <item itemvalue="Python.10_me" />
         <item itemvalue="Python.9_cnn_check" />
-        <item itemvalue="Python.5_mnist_grad" />
+        <item itemvalue="Python.scratch_4" />
       </list>
     </recent_temporary>
   </component>

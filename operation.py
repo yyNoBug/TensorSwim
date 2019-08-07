@@ -111,6 +111,8 @@ class Node(object):
         excecutor = Executor(eval_node_list= [self])
         return excecutor.run(feed_dict=feed_dict)[0]
 
+    run = eval
+
 
 class Op(object):
     """Op represents operations performed on nodes."""
@@ -568,8 +570,11 @@ class VariableOp(Op):
 
 class ConstantOp(Op):
     """ Op that represents a constant. """
-    def __call__(self, val, name="Const"):
+    def __call__(self, val, name="Const", shape=None):
         new_node = Op.__call__(self)
+        if shape is not None:
+            assert not isinstance(val, np.ndarray)
+            val = np.ones(shape=shape) * val
         new_node.const_attr = np.array(val)
         new_node.name = name
         return new_node
@@ -681,6 +686,50 @@ class ShapeOp(Op):
         return np.shape(input_vals[0])
 
 
+class ReshapeOp(Op):
+    def __call__(self, node_A, shape):
+        new_node = Op.__call__(self)
+        new_node.inputs = [node_A]
+        new_node.const_attr = shape
+        new_node.name = "Reshape(%s, %s)" % (node_A.name, str(shape))
+        return new_node
+
+    def compute(self, node, input_vals):
+        assert len(input_vals) == 1
+        return np.reshape(input_vals[0], tuple(node.const_attr))
+
+    def gradient(self, node, output_grad):
+        return [reshape_grad(node.inputs[0], output_grad)]
+
+
+class ReshapeGradOp(Op):
+    def __call__(self, input, output_grad):
+        new_node = Op.__call__(self)
+        new_node.inputs = [input, output_grad]
+        new_node.name = "ReshapeGradient"
+        return new_node
+
+    def compute(self, node, input_vals):
+        assert len(input_vals) == 2
+        return np.reshape(input_vals[1], input_vals[0].shape)
+
+
+class ProbshapeOp(Op):
+    def __call__(self, node_A, node_B):
+        new_node = Op.__call__(self)
+        new_node.inputs = [node_A, node_B]
+        new_node.name = "Probshape"
+        return new_node
+
+    def compute(self, node, input_vals):
+        assert len(input_vals) == 2
+        return (np.random.uniform(
+            size=input_vals[0].shape) < input_vals[1])
+
+    def gradient(self, node, output_grad):
+        return [zeroslike_op(node.inputs[0]), zeroslike_op(node.inputs[1])]
+
+
 class AdaptOp(Op):
     def __call__(self, node_A, node_B):
         new_node = Op.__call__(self)
@@ -790,6 +839,9 @@ sign = SignOp()
 equal = EqualOp()
 argmax = ArgmaxOp()
 shape = ShapeOp()
+reshape = ReshapeOp()
+reshape_grad = ReshapeGradOp()
+probshape_op = ProbshapeOp()
 adapt = AdaptOp()
 cast = CastOp()
 wrap = WrapOp()

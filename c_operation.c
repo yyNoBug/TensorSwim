@@ -1,4 +1,4 @@
-/*gcc -o libpycall.so -shared -fPIC c_operation.c */
+/*gcc -o libpycall.so -shared -fPIC c_operation.c -O4*/
 
 #include <stdio.h>
 #include <stdlib.h>

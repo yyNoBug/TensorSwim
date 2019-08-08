@@ -1,6 +1,7 @@
 import numpy as np
 import cp_link as cop
 from executor import *
+import time
 
 variable_value_list = {}
 
@@ -454,7 +455,7 @@ class ReluOp(Op):
 class Conv2dOp(Op):
     def __call__(self, input, filter, strides, padding):
         assert strides == [1, 1, 1, 1]
-        assert padding == "SAME"
+        #assert padding == "SAME"
         new_node = Op.__call__(self)
         new_node.name = "Conv2dOp"
         new_node.inputs = [input, filter]
@@ -463,11 +464,18 @@ class Conv2dOp(Op):
 
     def compute(self, node, input_vals):
         assert len(input_vals) == 2
-        return cop.conv2d(input_vals[0], input_vals[1], node.const_attr[0], node.const_attr[1])
+        time1 = time.time()
+        ans = cop.conv2d(input_vals[0], input_vals[1], node.const_attr[0], node.const_attr[1])
+        time2 = time.time()
+        # print("cov")
+        print(time2 - time1)
+        return ans
 
     def gradient(self, node, output_grad):
         grad_A = conv2d_grad_op1(node.inputs, node.const_attr, output_grad)
         grad_B = conv2d_grad_op2(node.inputs, node.const_attr, output_grad)
+        # print("output_grad:")
+        # print(output_grad)
         return [grad_A, grad_B]
 
 
@@ -480,7 +488,14 @@ class Conv2dGradOp1(Op):
         return new_node
 
     def compute(self, node, input_vals):
-        return cop.conv2dGrad1(input_vals[0], input_vals[1], input_vals[2], node.const_attr[0], node.const_attr[1])
+        time1 = time.time()
+        # ans = cop.conv2dGrad1(input_vals[0], input_vals[1], input_vals[2], node.const_attr[0], node.const_attr[1])
+        ans = cop.conv2d(input_vals[2], np.rot90(np.transpose(input_vals[1], (0, 1, 3, 2)), axes=(0, 1), k=2),
+                     [1, 1, 1, 1], node.const_attr[1])
+        time2 = time.time()
+        print("G1")
+        print(time2 - time1)
+        return ans
 
 
 class Conv2dGradOp2(Op):
@@ -492,7 +507,35 @@ class Conv2dGradOp2(Op):
         return new_node
 
     def compute(self, node, input_vals):
-        return cop.conv2dGrad2(input_vals[0], input_vals[1], input_vals[2], node.const_attr[0], node.const_attr[1])
+        # print("output_grads:")
+        # print(input_vals[2])
+        # print("input:")
+        # print(input_vals[0])
+        # print("filter:")
+        # print(input_vals[1])
+
+        time1 = time.time()
+        ans = cop.conv2dGrad2(input_vals[0], input_vals[1], input_vals[2], node.const_attr[0], node.const_attr[1])
+        # print("correct:", ans)
+
+        # ri = cop.input_extend(input_vals[0], input_vals[1], node.const_attr[0], node.const_attr[1])
+        # print("ri", ri)
+        # print("1:", np.transpose(ri, axes=(3, 1, 2, 0)))
+        # print("2:", np.transpose(input_vals[2], axes=(1, 2, 0, 3)))
+        # print(np.transpose(input_vals[2], axes=(1, 2, 0, 3)).shape)
+
+        """
+        # ans = cop.conv2dGrad22(np.transpose(ri, axes=(3, 1, 2, 0)),
+        #                 np.transpose(input_vals[2], axes=(1, 2, 0, 3)),
+        #                 node.const_attr[0], node.const_attr[1])
+        # ans = np.transpose(ans, axes=(1, 2, 0, 3))
+        # print("wrong:", ans)
+        """
+
+        time2 = time.time()
+        print("G2")
+        print(time2 - time1)
+        return ans
 
 
 class MaxPoolOp(Op):
@@ -723,8 +766,7 @@ class ProbshapeOp(Op):
 
     def compute(self, node, input_vals):
         assert len(input_vals) == 2
-        return (np.random.uniform(
-            size=input_vals[0].shape) < input_vals[1])
+        return np.random.uniform(size=input_vals[0].shape) < input_vals[1]
 
     def gradient(self, node, output_grad):
         return [zeroslike_op(node.inputs[0]), zeroslike_op(node.inputs[1])]

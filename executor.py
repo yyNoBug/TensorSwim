@@ -32,7 +32,7 @@ class Executor:
         count = 0
         for n in topo_order:
             if n in node_to_val_map: continue
-            print(count)
+            # print(count)
             count += 1
             feed = ut.search(n.inputs, node_to_val_map)
             node_to_val_map[n] = n.op.compute(n, feed)

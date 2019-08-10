@@ -430,9 +430,6 @@ class ReduceMeanOp(Op):
     def gradient(self, node, output_grad):
         return [broadcast_to(output_grad, node.inputs[0]) /
                 reduce_sum(oneslike_op(node.inputs[0]), axis=node.const_attr)]
-        # return [adapt(broadcast_to(output_grad, node.inputs[0]) /
-                      #reduce_sum(oneslike_op(node.inputs[0]), axis=node.const_attr), node.inputs[0])]
-
 
 
 class ReluOp(Op):

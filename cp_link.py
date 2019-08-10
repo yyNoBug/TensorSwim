@@ -83,8 +83,14 @@ def conv2d(input, filter, strides, padding):
         ri_height = (out_height - 1) * strides[1] + filter_height
         ri_width = (out_width - 1) * strides[2] + filter_width
         ri_channel = in_channels
+        time1 = time.time()
         ri = zero_extend_c(input, (ri_height - in_height) // 2, (ri_height - in_height + 1) // 2,
                          (ri_width - in_width) // 2, (ri_width - in_width + 1) // 2)
+        time2 = time.time()
+        ri = zero_extend(input, (ri_height - in_height) // 2, (ri_height - in_height + 1) // 2,
+                           (ri_width - in_width) // 2, (ri_width - in_width + 1) // 2)
+        time3 = time.time()
+        print("asdfg", time2 - time1, time3 - time2)
 
     elif padding == "VALID":
         out_height = (in_height - filter_height) // strides[1] + 1
@@ -118,50 +124,6 @@ def conv2d(input, filter, strides, padding):
     )
     return output
 
-
-def conv2dGrad22(input, filter, strides, padding):
-    # print("is:", input.shape)
-    # print(input)
-    # print("fs:", filter.shape)
-    # print(filter)
-    batch = input.shape[0]
-    in_height = input.shape[1]
-    in_width = input.shape[2]
-    in_channels = input.shape[3]
-
-    filter_height = filter.shape[0]
-    filter_width = filter.shape[1]
-    assert in_channels == filter.shape[2]
-    out_channels = filter.shape[3]
-
-    assert padding == "SAME"
-    assert strides == [1, 1, 1, 1]
-
-    out_height = (in_height - filter_height) + 1
-    out_width = (in_width - filter_width) + 1
-    output = np.zeros((batch, out_height, out_width, out_channels), dtype=np.float32)
-
-    input = input.astype(np.float32)
-    filter = filter.astype(np.float32)
-    lib.conv2d(
-        batch,
-        get_pointer(input),
-        in_height,
-        in_width,
-        in_channels,
-        1,
-        1,
-        get_pointer(filter),
-        filter_height,
-        filter_width,
-        out_channels,
-        get_pointer(output),
-        out_height,
-        out_width
-    )
-    return output
-
-
 def conv2dGrad1(input, filter, output, strides, padding):
     batch = input.shape[0]
     in_height = input.shape[1]
@@ -183,8 +145,14 @@ def conv2dGrad1(input, filter, output, strides, padding):
         ri_width = (out_width - 1) * strides[2] + filter_width
         ri_channel = in_channels
         ri = np.zeros(input.shape, dtype=np.float32)
+        time1 = time.time()
         ri = zero_extend(ri, (ri_height - in_height) // 2, (ri_height - in_height + 1) // 2,
                          (ri_width - in_width) // 2, (ri_width - in_width + 1) // 2)
+        time2 = time.time()
+        ri = zero_extend(ri, (ri_height - in_height) // 2, (ri_height - in_height + 1) // 2,
+                         (ri_width - in_width) // 2, (ri_width - in_width + 1) // 2)
+        time3 = time.time()
+        print("erewrq", time2 - time1, time3 - time2)
 
     else:
         assert False
@@ -360,18 +328,47 @@ def max_pool_grad(value, output, ksize, strides, padding):
 
 
 
-def fact(n):  # function write in python to compare
-    if n <= 1: return 1
-    else: return n * fact(n - 1)
 
+def conv2dGrad22(input, filter, strides, padding):
+    # print("is:", input.shape)
+    # print(input)
+    # print("fs:", filter.shape)
+    # print(filter)
+    batch = input.shape[0]
+    in_height = input.shape[1]
+    in_width = input.shape[2]
+    in_channels = input.shape[3]
 
-now = time.time()
-for i in range(10):
-    n = fact(100)
-end = time.time()
-print('the python fact takes:', end - now)
+    filter_height = filter.shape[0]
+    filter_width = filter.shape[1]
+    assert in_channels == filter.shape[2]
+    out_channels = filter.shape[3]
 
+    assert padding == "SAME"
+    assert strides == [1, 1, 1, 1]
 
-for i in range(10):
-    n = lib.fact(100)
-print('the c fact takes:', time.time() - end)
+    out_height = (in_height - filter_height) + 1
+    out_width = (in_width - filter_width) + 1
+    output = np.zeros((batch, out_height, out_width, out_channels), dtype=np.float32)
+
+    input = input.astype(np.float32)
+    input = np.ascontiguousarray(input)
+    filter = filter.astype(np.float32)
+    filter = np.ascontiguousarray(filter)
+    lib.conv2d(
+        batch,
+        get_pointer(input),
+        in_height,
+        in_width,
+        in_channels,
+        1,
+        1,
+        get_pointer(filter),
+        filter_height,
+        filter_width,
+        out_channels,
+        get_pointer(output),
+        out_height,
+        out_width
+    )
+    return output

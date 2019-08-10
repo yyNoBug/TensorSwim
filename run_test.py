@@ -8,7 +8,7 @@ tests = [
     ["initializer", "2_init.py"],
     ["assign",      "3_assign.py"],
     ["context",     "4_context.py"],
-    ["autodiff",    "5_autodiff.py"],
+    ["autodiff",    "5_mnist_grad.py"],
     ["GD optimizer",   "6_gd_optimizer.py"],
     ["multilayer perceptron", "7_ml_perceptron.py"],
     ["Adam optimizer",        "8_adam_optimizer.py"],

@@ -5,12 +5,6 @@
 #include <string.h>
 #include <cblas.h>
 
-/*
-define ou[] ou[((i*o_h+j)*o_w+k)*o_c+r]
-define in[] in[((i*i_h+j+p)*i_w+k+q)*i_c+t]
-define ft[] ft[((p*f_w+q)*i_c+t)*o_c+r]
-*/
-
 
 void matmul(const float* A, const float* B, float* C, int M, int N, int K, int transA, int transB) {
     const CBLAS_TRANSPOSE TA = transA ? CblasTrans : CblasNoTrans;
@@ -22,6 +16,24 @@ void matmul(const float* A, const float* B, float* C, int M, int N, int K, int t
     const float bb = 0;
     cblas_sgemm(CblasRowMajor, TA, TB, M, K, N, aa, A, lda, B, ldb, bb, C, ldc);
 }
+
+
+void zero_extend(float* in, float* out, int u, int d, int l, int r,
+                 int shp0, int shp1, int shp2, int shp3) {
+
+    int shpp1 = shp1 + u + d;
+    int shpp2 = shp2 + l + r;
+    for (int i = 0; i < shp0; ++i) {
+        for (int j = 0; j < shp1; ++j) {
+            for (int k = 0; k < shp2; ++k) {
+                memcpy(out + ((i * shpp1 + j + u) * shpp2 + k + l) * shp3,
+                        in + ((i * shp1 + j) * shp2 + k) * shp3,
+                        shp3 * sizeof(float));
+            }
+        }
+    }
+}
+
 
 void conv2d(
     int batch,
@@ -51,11 +63,8 @@ void conv2d(
             for (int k = 0; k < o_w; ++k) {
                 for (int p = 0; p < f_h; ++p) {
                     for (int q = 0; q < f_w; ++q) {
-                        for (int t = 0; t < i_c; ++t) {
-                            *(ptimg) = in[((i * i_h + j + p) * i_w + k + q) * i_c + t];
-                            //printf("%f\n", *(ptimg));
-                            ptimg++;
-                        }
+                        memcpy(ptimg, in + ((i * i_h + j + p) * i_w + k + q) * i_c, i_c * sizeof(float));
+                        ptimg += i_c;
                     }
                 }
             }
@@ -98,11 +107,8 @@ void conv2d_grad2(
             for (int k = 0; k < o_w; ++k) {
                 for (int p = 0; p < f_h; ++p) {
                     for (int q = 0; q < f_w; ++q) {
-                        for (int t = 0; t < i_c; ++t) {
-                            *(ptimg) = in[((i * i_h + j + p) * i_w + k + q) * i_c + t];
-                            //printf("%f\n", *(ptimg));
-                            ptimg++;
-                        }
+                        memcpy(ptimg, in + ((i * i_h + j + p) * i_w + k + q) * i_c, i_c * sizeof(float));
+                        ptimg += i_c;
                     }
                 }
             }
@@ -115,6 +121,82 @@ void conv2d_grad2(
 
     free(image);
     free(tmp);
+}
+
+
+void max_pool(
+    int batch,
+    float* in,
+    int i_h,
+    int i_w,
+    int i_c,
+    int stride_h,
+    int stride_w,
+    int f_h,
+    int f_w,
+    int o_c,
+    float* ou,
+    int o_h,
+    int o_w ) {
+
+    for (int i = 0; i < batch; ++i) {
+        for (int j = 0; j < o_h; ++j) {
+            for (int k = 0; k < o_w; ++k) {
+                for (int t = 0; t < i_c; ++t) {
+                    float ma = -99999.0;
+                    for (int p = 0; p < f_h; ++p) {
+                        for (int q = 0; q < f_w; ++q) {
+                            if (in[((i * i_h + j * stride_h + p) * i_w + k * stride_w + q) * i_c + t] > ma)
+                                ma = in[((i * i_h + j * stride_h + p) * i_w + k * stride_w + q) * i_c + t];
+                        }
+                    }
+                    ou[((i * o_h + j) * o_w + k) * o_c + t] = ma;
+                }
+            }
+        }
+    }
+    //for (int i = 0; i < batch * o_h * o_w * o_c; ++i) printf("%f\n", ou[i]);
+
+    return;
+}
+
+
+void max_pool_grad(
+    int batch,
+    float* in,
+    float* gradi,
+    int i_h,
+    int i_w,
+    int i_c,
+    int stride_h,
+    int stride_w,
+    int f_h,
+    int f_w,
+    int o_c,
+    float* ou,
+    int o_h,
+    int o_w ) {
+
+    for (int i = 0; i < batch; ++i) {
+        for (int j = 0; j < o_h; ++j) {
+            for (int k = 0; k < o_w; ++k) {
+                for (int t = 0; t < i_c; ++t) {
+                    float ma = -99999.0;
+                    int ind = -1;
+                    for (int p = 0; p < f_h; ++p) {
+                        for (int q = 0; q < f_w; ++q) {
+                            if (in[((i * i_h + j * stride_h + p) * i_w + k * stride_w + q) * i_c + t] > ma) {
+                                ind = ((i * i_h + j * stride_h + p) * i_w + k * stride_w + q) * i_c + t;
+                                ma = in[ind];
+                            }
+                        }
+                    }
+                    if (ind < 0) printf("BOOMSHAKALAKA");
+                    gradi[ind] += ou[((i * o_h + j) * o_w + k) * o_c + t];
+                }
+            }
+        }
+    }
 }
 
 
@@ -133,8 +215,6 @@ void cov2d(
     float* ou,
     int o_h,
     int o_w ) {
-
-    //printf("CONV2D WARNING!!\ni:%d j:%d k:%d t:%d p:%d q:%d r:%d\n", batch, o_h, o_w, i_c, f_h, f_w, o_c);
 
     for (int i = 0; i < batch; ++i) {
         for (int j = 0; j < o_h; ++j) {
@@ -161,6 +241,7 @@ void cov2d(
 
     return;
 }
+
 
 void cov2d_grad1(
     int batch,
@@ -249,109 +330,4 @@ void cov2d_grad2(
     //for (int i = 0; i < batch * o_h * o_w * o_c; ++i) printf("%f\n", ou[i]);
 
     return;
-}
-
-void max_pool(
-    int batch,
-    float* in,
-    int i_h,
-    int i_w,
-    int i_c,
-    int stride_h,
-    int stride_w,
-    int f_h,
-    int f_w,
-    int o_c,
-    float* ou,
-    int o_h,
-    int o_w ) {
-
-    for (int i = 0; i < batch; ++i) {
-        for (int j = 0; j < o_h; ++j) {
-            for (int k = 0; k < o_w; ++k) {
-                for (int t = 0; t < i_c; ++t) {
-                    float ma = -99999.0;
-                    for (int p = 0; p < f_h; ++p) {
-                        for (int q = 0; q < f_w; ++q) {
-                            if (in[((i * i_h + j * stride_h + p) * i_w + k * stride_w + q) * i_c + t] > ma)
-                                ma = in[((i * i_h + j * stride_h + p) * i_w + k * stride_w + q) * i_c + t];
-                        }
-                    }
-                    ou[((i * o_h + j) * o_w + k) * o_c + t] = ma;
-                }
-            }
-        }
-    }
-    //for (int i = 0; i < batch * o_h * o_w * o_c; ++i) printf("%f\n", ou[i]);
-
-    return;
-}
-
-void max_pool_grad(
-    int batch,
-    float* in,
-    float* gradi,
-    int i_h,
-    int i_w,
-    int i_c,
-    int stride_h,
-    int stride_w,
-    int f_h,
-    int f_w,
-    int o_c,
-    float* ou,
-    int o_h,
-    int o_w ) {
-
-    for (int i = 0; i < batch; ++i) {
-        for (int j = 0; j < o_h; ++j) {
-            for (int k = 0; k < o_w; ++k) {
-                for (int t = 0; t < i_c; ++t) {
-                    float ma = -99999.0;
-                    int ind = -1;
-                    for (int p = 0; p < f_h; ++p) {
-                        for (int q = 0; q < f_w; ++q) {
-                            if (in[((i * i_h + j * stride_h + p) * i_w + k * stride_w + q) * i_c + t] > ma) {
-                                ind = ((i * i_h + j * stride_h + p) * i_w + k * stride_w + q) * i_c + t;
-                                ma = in[ind];
-                            }
-                        }
-                    }
-                    if (ind < 0) printf("BOOMSHAKALAKA");
-                    gradi[ind] += ou[((i * o_h + j) * o_w + k) * o_c + t];
-                }
-            }
-        }
-    }
-
-}
-
-void zero_extend(float* in, float* out, int u, int d, int l, int r,
-                 int shp0, int shp1, int shp2, int shp3) {
-
-    int shpp1 = shp1 + u + d;
-    int shpp2 = shp2 + l + r;
-    for (int i = 0; i < shp0; ++i) {
-        for (int j = 0; j < shp1; ++j) {
-            for (int k = 0; k < shp2; ++k) {
-                memcpy(out + ((i * shpp1 + j + u) * shpp2 + k + l) * shp3,
-                        in + ((i * shp1 + j) * shp2 + k) * shp3,
-                        shp3 * sizeof(float));
-                /*for (int t = 0; t < shp3; ++t) {
-                    out[((i * (shp1 + u + d) + j + u) * (shp2 + l + r) + k + l) * shp3 + t] =
-                    in[((i * shp1 + j) * shp2 + k) * shp3 + t];
-                    //printf("in: %f\n", in[((i * shp2 + j) * shp3 + k) * shp3 + t]);
-                }*/
-            }
-        }
-    }
-
-}
-
-int fact(int n)
-{
-    if (n <= 1)
-        return 1;
-    else
-        return n * fact(n - 1);
 }
